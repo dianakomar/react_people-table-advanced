@@ -4,16 +4,20 @@ import { useSearchParams } from 'react-router-dom';
 export const PeopleFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // const [query, setQuery] = useState('');
   const centuries = searchParams.getAll('centuries') || [];
   const query = searchParams.get('query') || '';
   const sex = searchParams.get('sex');
-  // const centuries = searchParams.getAll('centuries');
 
   function handleQueryChange(event: React.ChangeEvent<HTMLInputElement>) {
     const params = new URLSearchParams(searchParams);
+    const value = event.target.value;
 
-    params.set('query', event.target.value);
+    if (value.trim()) {
+      params.set('query', value);
+    } else {
+      params.delete('query');
+    }
+
     setSearchParams(params);
   }
 

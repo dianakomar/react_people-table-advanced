@@ -4,6 +4,7 @@ import { Person } from '../types';
 import { PeopleTable } from './PeopleTable';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { PeopleFilters } from './PeopleFilters';
+import { getPeople } from '../api';
 
 export const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -14,8 +15,7 @@ export const PeoplePage = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    fetch('https://mate-academy.github.io/react_people-table/api/people.json')
-      .then(response => response.json())
+    getPeople()
       .then(data => setPeople(data))
       .catch(() => setError(true))
       .finally(() => setIsLoading(false));
@@ -46,7 +46,7 @@ export const PeoplePage = () => {
       <div className="block">
         <div className="columns is-desktop is-flex-direction-row-reverse">
           <div className="column is-7-tablet is-narrow-desktop">
-            <PeopleFilters />
+            {people.length > 0 && <PeopleFilters />}
           </div>
 
           <div className="column">
